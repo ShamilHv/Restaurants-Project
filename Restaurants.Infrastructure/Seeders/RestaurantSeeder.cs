@@ -3,7 +3,7 @@ using Restaurants.Infrastructure.Persistence;
 
 namespace Restaurants.Infrastructure.Seeders;
 
-internal class RestaurantsSeeder(RestaurantDbContext dbContext) : IRestaurantsSeeder
+internal class RestaurantSeeder(RestaurantsDbContext dbContext) : IRestaurantSeeder
 {
     public async Task Seed()
     {
@@ -16,9 +16,9 @@ internal class RestaurantsSeeder(RestaurantDbContext dbContext) : IRestaurantsSe
             }
     }
 
-    private IEnumerable<Restaurant> GetRestaurants()
+    private IEnumerable<Domain.Entities.Restaurant> GetRestaurants()
     {
-        List<Restaurant> restaurants =
+        List<Domain.Entities.Restaurant> restaurants =
         [
             new()
             {
