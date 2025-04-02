@@ -8,7 +8,21 @@ public class RestaurantsRepository(RestaurantsDbContext dbContext) : IRestaurant
 {
     public async Task<IEnumerable<Domain.Entities.Restaurant>> GetAllAsync()
     {
-        var restaurants = await dbContext.Restaurants.ToListAsync();
+        var restaurants = await dbContext.Restaurants.Include(r => r.Dishes).ToListAsync();
         return restaurants;
+    }
+
+    public async Task<Domain.Entities.Restaurant?> GetRestaurantByIdAsync(int id)
+    {
+        var restaurant = await dbContext.Restaurants.Include(r => r.Dishes).FirstOrDefaultAsync(r => r.Id == id);
+        return restaurant;
+    }
+
+    public async Task<int> CreateRestaurant(Domain.Entities.Restaurant restaurant)
+    {
+        dbContext.Restaurants.Add(restaurant);
+        await dbContext.SaveChangesAsync();
+        return restaurant.Id;
+        
     }
 }
